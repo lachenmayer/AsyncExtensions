@@ -83,7 +83,11 @@ where Base.Element: AsyncSequence, Base: Sendable, Base.Element.Element: Sendabl
     }
 
     struct State {
-      var childTask: Task<ChildValue?, Never>?
+      var childTask: Task<ChildValue?, Never>? {
+        willSet {
+          childTask?.cancel()
+        }
+      }
       var base: BaseState
 
       static var initial: State {
